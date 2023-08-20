@@ -113,5 +113,5 @@ root.mainloop()
 
 
 if __name__ == '__main__':
-    print(lista)
-    print(resposta)
+    print('oi')
+    
