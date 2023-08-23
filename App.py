@@ -41,7 +41,7 @@ class App():
         self.botao_dot.grid(column=1, row=3)
         self.botao_igual = ttk.Button(self.quadro, text='=', command=self._botao_igual)
         self.botao_igual.grid(column=2, row=3)
-        self.botao_apaga = ttk.Button(self.quadro, text='del', command=self._limpa)
+        self.botao_apaga = ttk.Button(self.quadro, text='del', command=self._remove)
         self.botao_apaga.grid(column=4, row=0)
 
         # botoes de 0 a 9 
@@ -65,12 +65,12 @@ class App():
         self.botao9.grid(column=2, row=2)
         self.botao0 = ttk.Button(self.quadro, text='0', command=lambda: self.botoes('0'))
         self.botao0.grid(column=0, row=3)
-        self.botao_raiz = ttk.Button(self.quadro, text='√', command= lambda: self.botoes('√'))
-        self.botao_raiz.grid(column=4, row=1)
         self.botao_pi = ttk.Button(self.quadro, text='π', command=lambda: self.botoes('3.14159'))
         self.botao_pi.grid(column=4, row=2)
-        self.botao_exp = ttk.Button(self.quadro,text='x²', command= lambda: self.botoes('²'))
+        self.botao_exp = ttk.Button(self.quadro,text='x²', command=self._exp)
         self.botao_exp.grid(column=4, row=3)
+        self.botao_raiz = ttk.Button(self.quadro, text='√', command=self._raiz_quadrada)
+        self.botao_raiz.grid(column=4, row=1)
 
         
         self.root.bind("<Return>", self._botao_igual)
@@ -78,8 +78,38 @@ class App():
         self.root.mainloop()
 
 
-    def calcular(self, entrada: str) -> int: 
+    def calcular(self, entrada: str, raiz: bool =False, exp: bool =False) -> int:
+        if raiz == True:
+            raiz = False
+            return sqrt(float(entrada))
+        elif exp == True:
+            exp= False
+            return int(entrada) ** 2
         return eval(entrada)
+    
+
+    def _exp(self):
+        valor_bruto = ''.join(App.lista)
+        App.resposta = self.calcular(valor_bruto, exp=True)
+        return self.label_resposta.config(text=App.resposta)
+
+
+    def _raiz_quadrada(self):
+        valor_bruto = ''.join(App.lista)
+        App.resposta = self.calcular(valor_bruto, raiz=True)
+        return self.label_resposta.config(text=App.resposta)
+
+
+    def _botao_igual(self, raiz: bool = False) -> int:
+        App.resposta = ''.join(App.lista)
+        App.resposta = self.calcular(App.lista, raiz)
+        App.lista.clear()
+        return self.label_resposta.config(text=App.resposta)
+
+
+    def _remove(self)-> str:
+        App.lista.pop()
+        return self.label.config(text=App.lista)
 
 
     def botoes(self, button: str) -> str:
@@ -88,23 +118,12 @@ class App():
             return self.label.config(text=App.lista)
 
 
-    def binds(self, botao):
+    def binds(self, botao: str) -> str:
         if botao.keysym in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '+', '-', '*', '/', '.']:
             App.lista.append(botao.keysym)
         elif botao.char in ['+', '-', '*', '/', '.']:
             App.lista.append(botao.char)
         return self.label.config(text=App.lista)
-
-
-    def _botao_igual(self, resposta=None):
-        resposta = ''.join(App.lista)
-        resposta = self.calcular(resposta)
-        return self.label_resposta.config(text=resposta)
-
-    def _limpa(self):
-        App.lista.pop()
-        return self.label.config(text=App.lista)
-# lista que ira conter os numeros para calcular
 
 
 if __name__ == '__main__':
