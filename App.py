@@ -88,13 +88,13 @@ class App():
         return eval(entrada)
     
 
-    def _exp(self):
+    def _exp(self) -> int:
         valor_bruto = ''.join(App.lista)
         App.resposta = self.calcular(valor_bruto, exp=True)
         return self.label_resposta.config(text=App.resposta)
 
 
-    def _raiz_quadrada(self):
+    def _raiz_quadrada(self) -> int:
         valor_bruto = ''.join(App.lista)
         App.resposta = self.calcular(valor_bruto, raiz=True)
         return self.label_resposta.config(text=App.resposta)
@@ -103,7 +103,6 @@ class App():
     def _botao_igual(self) -> int:
         App.resposta = ''.join(App.lista)
         App.resposta = self.calcular(App.resposta)
-        App.lista.clear()
         return self.label_resposta.config(text=App.resposta)
 
 
