@@ -78,7 +78,7 @@ class App():
         self.root.mainloop()
 
 
-    def calcular(self, entrada: str, raiz: bool =False, exp: bool =False) -> int:
+    def calcular(self, entrada: str, raiz: bool = False, exp: bool = False) -> int:
         if raiz == True:
             raiz = False
             return sqrt(float(entrada))
@@ -100,9 +100,9 @@ class App():
         return self.label_resposta.config(text=App.resposta)
 
 
-    def _botao_igual(self, raiz: bool = False) -> int:
+    def _botao_igual(self) -> int:
         App.resposta = ''.join(App.lista)
-        App.resposta = self.calcular(App.lista, raiz)
+        App.resposta = self.calcular(App.resposta)
         App.lista.clear()
         return self.label_resposta.config(text=App.resposta)
 
